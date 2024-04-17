@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>expression</title>
+</head>
+<body>
+    <h1>expression 테스트 페이지</h1>
+    <ul>
+        <li th:text="${param.str}"></li>
+        <li th:text="${param.no}"></li>
+        <li th:text="${param.no[0]}"></li>
+    </ul>
+
+
+    <ul th:Object="${member}">
+        <li th:text="*{name}"></li>
+        <li th:text="*{age}"></li>
+        <li th:text="*{address}"></li>
+    </ul>
+
+    <ul th:each="m:${members}">
+        <li th:text="${m.age}"></li>
+        <li th:text="${m.name}"></li>
+        <li th:text="${m.address}"></li>
+        <li th:text="${mStat.index}"></li>
+        <li th:text="${mStat.count}"></li>
+        <li th:text="${mStat.first}"></li>
+        <li th:text="${mStat.last}"></li>
+
+            <p th:if="${m.age}>20">성인입니다</p>
+            <p th:if="${m.age}<=20">잼민이</p>
+
+    </ul>
+
+    <th:block th:with="start=${page.firstPage}, end=${page.lastPage}, cur=${page.curPage}">
+        <th:block th:each="p:${#numbers.sequence(start,end)}">
+            <th:block th:if="${cur==p}">
+                <button disabled th:inline="text">[[${p}]]</button>
+            </th:block>
+            <th:block th:if="${p!=cur}">
+                <button th:inline="text">[[${p}]]</button>
+            </th:block>
+        </th:block>
+    </th:block>
+
+
+
+
+
+</body>
+</html>

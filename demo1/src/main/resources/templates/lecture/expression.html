@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>expression</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/common/cssStyle.css}"/>
+</head>
+<body>
+    <th:block th:insert="~{/common/fragment.html::headerFragment}"></th:block>
+    <h1>expression 페이지 입니다</h1>
+
+    <h2>${} 표현식</h2>
+    <pre>
+        ${} ModelAndView 가 제공한 값의 key 값을 집어 넣으면 값을 그대로 가지고 올수 있다
+        모든 Object 타입으로 제공하기 때문에 List Map DTO 일반 타입 모든 것을 받을 수 있다
+    </pre>
+
+    <p th:text="${member}"></p>
+    <p th:text="${memberList.get(0)}"></p>
+    <p th:Object="${member}" th:text="*{age}"></p>
+    <p th:text="${param.str}"></p>
+    <p th:text="${param.no[0]}"></p>
+
+    <p th:text="${str}"></p>
+    <p th:utext="${str}"></p>
+
+    <ul>
+        <li th:inline="text">[[${str}]]</li>
+        <li>[(${str})]</li>
+        <li th:inline="none">[[${str}]]</li>
+
+    </ul>
+
+    <pre>
+        자바에서 사용한 표현식을 동일하게 script 에서도 적용이 가능하다
+    </pre>
+    <script>
+<!--스크립트태그 안에서 사용할때 -->
+
+    window.onload=function (){
+    let d ='[[${str}]]';
+    alert(d);
+    }
+    </script>
+
+    <input type="text" th:value="${member.name}">
+
+    <ul th:each="m : ${memberList}">
+        <li th:text="|name = ${m.name}|"></li>
+        <li th:text="|age = ${m.age}|"></li>
+        <li th:text="|address=${m.address}|"></li>
+        <li th:text="${mStat.index}"></li>
+        <li th:text="${mStat.count}"></li>
+        <li th:text="${mStat.even}"></li>
+        <li th:text="${mStat.odd}"></li>
+        <li th:text="${mStat.first}"></li>
+        <li th:text="${mStat.last}"></li>
+    </ul>
+
+
+
+    <p th:if="${member.age}>20">청년층입니다</p>
+    <p th:unless="${member.age}<=20">잼민이군요</p>
+
+    <p th:if="${member.age}>20 and ${member.name}=='Lollolo'">회원이군</p>
+
+    <hr>
+
+    <p th:text="${pages.startPage}"></p>
+    <th:block th:with="start=${pages.startPage}, end=${pages.endPage}, cur=${pages.curPage}">
+        <th:block th:each="p : ${#numbers.sequence(start,end)}">
+            <th:block th:if="${p}==cur">
+                <button th:inline="text" disabled>[[${p}]]</button>
+            </th:block>
+            <th:block th:if="${p} !=cur">
+                <button>[[${p}]]</button>
+            </th:block>
+        </th:block>
+    </th:block>
+
+    <th:block th:insert="~{/common/fragment.html::footerFragment}"></th:block>
+</body>
+</html>
